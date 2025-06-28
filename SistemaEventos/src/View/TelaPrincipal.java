@@ -19,7 +19,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaParticipantes = new View.TelaParticipantes();
         TelaEventos = new View.TelaEventos();
         TelaLocais = new View.TelaLocais();
-        TelaAtividades = new View.TelaAtividades();
+        telaAtividades1 = new View.TelaAtividades();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -27,7 +27,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaPrincipal.addTab("Participantes", TelaParticipantes);
         TelaPrincipal.addTab("Eventos", TelaEventos);
         TelaPrincipal.addTab("Locais", TelaLocais);
-        TelaPrincipal.addTab("Atividades", TelaAtividades);
+        TelaPrincipal.addTab("Atividades", telaAtividades1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -37,7 +37,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(TelaPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+            .addComponent(TelaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 541, Short.MAX_VALUE)
         );
 
         pack();
@@ -66,13 +66,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private View.TelaAtividades TelaAtividades;
     private View.TelaEventos TelaEventos;
     private View.TelaHome TelaHome;
     private View.TelaLocais TelaLocais;
     private View.TelaParticipantes TelaParticipantes;
     private javax.swing.JTabbedPane TelaPrincipal;
     private javax.swing.Box.Filler filler1;
+    private View.TelaAtividades telaAtividades1;
     private View.TelaHome telaHome1;
     // End of variables declaration//GEN-END:variables
 }
