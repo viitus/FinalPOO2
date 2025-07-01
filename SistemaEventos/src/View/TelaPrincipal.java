@@ -27,7 +27,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaPrincipal.addTab("Participantes", TelaParticipantes);
         TelaPrincipal.addTab("Eventos", TelaEventos);
         TelaPrincipal.addTab("Locais", TelaLocais);
-        TelaPrincipal.addTab("Atividades", telaAtividades1);
+        TelaPrincipal.addTab("Programação", telaAtividades1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
