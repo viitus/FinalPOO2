@@ -11,6 +11,7 @@ import Controller.ParticipanteController;
 public class TelaParticipantes extends javax.swing.JPanel {
 
     private int linha = -1;
+    private ArrayList<ParticipanteModel> listaParticipantes = new ArrayList<>();
     
     public TelaParticipantes() {
         initComponents();
@@ -195,10 +196,10 @@ public class TelaParticipantes extends javax.swing.JPanel {
         linha = jTableParticipantes.getSelectedRow();
         
         if(linha != -1){
-            jtxNome.setText(jTableParticipantes.getValueAt(linha, 1).toString());
-            jtxCpf.setText(jTableParticipantes.getValueAt(linha, 2).toString()); //cpf
-            jtxIdade.setText(jTableParticipantes.getValueAt(linha, 3).toString());//idade
-            jtxTelefone.setText(jTableParticipantes.getValueAt(linha, 4).toString());//telefone
+            jtxNome.setText(jTableParticipantes.getValueAt(linha, 0).toString());
+            jtxCpf.setText(jTableParticipantes.getValueAt(linha, 1).toString()); //cpf
+            jtxIdade.setText(jTableParticipantes.getValueAt(linha, 2).toString());//idade
+            jtxTelefone.setText(jTableParticipantes.getValueAt(linha, 3).toString());//telefone
             
             jbtnNovo.setEnabled(true);
             jbtnExcluir.setEnabled(true);
@@ -231,8 +232,8 @@ public class TelaParticipantes extends javax.swing.JPanel {
             participante.setTelefone(telefone);
             //Controler
             ParticipanteController controller = new ParticipanteController();
-            String inserirOuEditar = jbtnSalvar.getText();
             
+            String inserirOuEditar = jbtnSalvar.getText();
             if(inserirOuEditar.equals("Salvar")){
                 if(controller.inserir(participante)){
                     JOptionPane.showMessageDialog(this, "Salvo com sucesso.");
@@ -256,10 +257,10 @@ public class TelaParticipantes extends javax.swing.JPanel {
     }//GEN-LAST:event_jbtnSalvarActionPerformed
 
     private void jbtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExcluirActionPerformed
-        ParticipanteModel participante = new ParticipanteModel();
-        participante.setCpf(Integer.parseInt(jtxCpf.getText()));
-        //Controler
+        int linhaSelecionada = jTableParticipantes.getSelectedRow();
+        ParticipanteModel participante = listaParticipantes.get(linhaSelecionada);
         ParticipanteController controller = new ParticipanteController();
+        
         if(controller.excluir(participante)){
             JOptionPane.showMessageDialog(this, "Excluido com sucesso");
             LimparCampos();
@@ -273,20 +274,19 @@ public class TelaParticipantes extends javax.swing.JPanel {
     
     private void PreencherTabela(){
         ParticipanteController controller = new ParticipanteController();
-        ArrayList<ParticipanteModel> lista = controller.selecionarTodos();
+        listaParticipantes = controller.selecionarTodos();
         
-        if(lista.isEmpty()){
+        DefaultTableModel modeloTabela = (DefaultTableModel)jTableParticipantes.getModel();
+        modeloTabela.setRowCount(0);
+        
+        if(listaParticipantes.isEmpty()){
             JOptionPane.showMessageDialog(this, "Nenhum participante cadastrado.");
         }else{
-            DefaultTableModel modeloTabela = (DefaultTableModel) jTableParticipantes.getModel();
-            modeloTabela.setRowCount(0);
-            
-            for(ParticipanteModel p:lista){
+            for(ParticipanteModel p:listaParticipantes){
                 modeloTabela.addRow(new String[]{
-                    String.valueOf(p.getIdParticipante()),
                     p.getNome(),
-                    String.valueOf(p.getCpf()),
-                    String.valueOf(p.getIdade()),
+                    p.getCpf(),
+                    p.getIdade(),
                     p.getTelefone()
                 });
             }
