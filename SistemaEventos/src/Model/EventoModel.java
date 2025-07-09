@@ -69,6 +69,8 @@ public class EventoModel {
         this.idLocal = idLocal;
     }
 
+
+    
     public EventoModel() {
     }
 
@@ -80,5 +82,10 @@ public class EventoModel {
         this.dataFim = dataFim;
         this.idAtividade = idAtividade;
         this.idLocal = idLocal;
+    }
+    
+    @Override
+    public String toString(){
+        return this.nomeEvento;
     }
 }

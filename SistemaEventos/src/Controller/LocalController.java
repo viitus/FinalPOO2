@@ -145,4 +145,15 @@ public class LocalController {
         conexao.desconectar();
         return result;
     }
+    
+    
+    public LocalModel selectById(int id){
+        for (LocalModel l: selectAll()){
+            if(l.getIdLocal() == id){
+                return l;
+            }
+        }
+        return null;
+    }
+    
 }

@@ -20,6 +20,14 @@ public class TelaAtividades extends javax.swing.JPanel {
         initComponents();
         InicializaTela();
         PreencherCBEventos();
+        LimparCampos();
+        
+        jcbEventos.addActionListener(e->{
+            EventoModel evento = (EventoModel) jcbEventos.getSelectedItem();
+            if (evento != null){
+                PreencherTabelaAtividades(evento.getIdEvento());
+            }
+        });  
     }
 
     @SuppressWarnings("unchecked")
@@ -84,6 +92,11 @@ public class TelaAtividades extends javax.swing.JPanel {
         });
 
         jbtnSalvar.setText("Salvar");
+        jbtnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSalvarActionPerformed(evt);
+            }
+        });
 
         jbtnExcluir.setText("Excluir");
 
@@ -180,6 +193,10 @@ public class TelaAtividades extends javax.swing.JPanel {
         jtxHoraFim.setEditable(true);
     }//GEN-LAST:event_jbtnNovoActionPerformed
 
+    private void jbtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSalvarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSalvarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -204,20 +221,12 @@ public class TelaAtividades extends javax.swing.JPanel {
 // ADICIONAR AO EventoController -> public String toString(){ return this.nome;}
     private void PreencherCBEventos(){
         EventoController controller = new EventoController();
-        ArrayList<EventoModel> listaEventos = controller.selecionarTodos();
+        ArrayList<EventoModel> listaEventos = controller.selectAll();
         
         jcbEventos.removeAllItems();
         for(EventoModel evento : listaEventos){
             jcbEventos.addItem(evento);
         }
-        
-        jcbEventos.addActionListener(e->{
-            EventoModel evento = (EventoModel) jcbEventos.getSelectedItem();
-            if (evento != null){
-                PreencherTabelaAtividades(evento.getIdEvento());
-            }
-        });
-        
     }
     
     private void InicializaTela() {
@@ -226,7 +235,7 @@ public class TelaAtividades extends javax.swing.JPanel {
         jbtnSalvar.setText("Salvar");
         jbtnExcluir.setEnabled(false);
         
-        jcbEventos.setEditable(true);
+        jcbEventos.setEditable(false);
         jtxTipo.setEditable(false);
         jtxTitulo.setEditable(false);
         jtxHoraInicio.setEditable(false);
@@ -246,12 +255,20 @@ public class TelaAtividades extends javax.swing.JPanel {
         }else{
             for(AtividadeModel l:listaAtividades){
                 modeloTabela.addRow(new String[]{
-                    l.getTipo(),
-                    l.getTitulo(),
-                    l.getHoraInicio(),
-                    l.getHoraTermino()
+                    l.getTipoAtividade(),
+                    l.getTituloAtividade(),
+                    String.valueOf(l.getHoraInicio()),
+                    String.valueOf(l.getHoraFim())
                 });
             }
         }
+    }
+
+    private void LimparCampos() {
+        jtxTipo.setText("");
+        jtxTitulo.setText("");
+        jtxHoraInicio.setText("");
+        jtxHoraFim.setText(""); 
+        jcbEventos.setSelectedIndex(0);
     }
 }

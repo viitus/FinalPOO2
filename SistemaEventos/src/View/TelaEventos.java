@@ -3,11 +3,16 @@
 package View;
 
 import Controller.EventoController;
+import Controller.EventoParticipanteController;
 import Controller.ParticipanteController;
 import Controller.LocalController;
 import Model.LocalModel;
 import Model.EventoModel;
+import Model.EventoParticipanteModel;
 import Model.ParticipanteModel;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -309,7 +314,7 @@ public class TelaEventos extends javax.swing.JPanel {
         EventoModel evento = listaEventos.get(linhaSelecionada);
         EventoController controller = new EventoController();
         
-        if(controller.excluir(evento)){
+        if(controller.delete(evento)){
             JOptionPane.showMessageDialog(this, "Evento excluido com sucesso");
             LimparCampos();
             InicializaTela();
@@ -323,47 +328,57 @@ public class TelaEventos extends javax.swing.JPanel {
     private void jbtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSalvarActionPerformed
         String nome = jtxNome.getText();
         String descricao = jtxDescricao.getText();
-        String local = jcbLocais.getSelectedItem().toString();
+        LocalModel local = (LocalModel) jcbLocais.getSelectedItem();
         String dataInicio = jtxDataInicio.getText();
         String dataFinal = jtxDataFinal.getText();
         
-        if( (nome.isEmpty()) || (descricao.isEmpty()) || (local.isEmpty()) || (dataInicio.isEmpty()) || (dataFinal.isEmpty()) ){
+        if( (nome.isEmpty()) || (descricao.isEmpty()) || (local == null) || (dataInicio.isEmpty()) || (dataFinal.isEmpty()) ){
             JOptionPane.showMessageDialog(this, "Preencha todos os campos.");
         }else{
-            //Model
-            EventoModel evento = new EventoModel();
-            evento.setNome(nome);
-            evento.setDescricao(descricao);
-            evento.setLocal(local);
-            evento.setDataInicio(dataInicio);
-            evento.setDataFinal(dataFinal);
-            //Controler
-            EventoController controller = new EventoController();
-            
-            String inserirOuEditar = jbtnSalvar.getText();
-            if(inserirOuEditar.equals("Salvar")){
-                if(controller.inserir(evento)){
-                    JOptionPane.showMessageDialog(this, "Salvo com sucesso.");
-                }else{
-                    JOptionPane.showMessageDialog(this, "Erro ao salvar o participante.");
+            try{
+                //Converter para localdateTime
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDateTime inicio = LocalDateTime.parse(dataInicio, formatter);
+                LocalDateTime fim = LocalDateTime.parse(dataFinal, formatter);
+                
+                //Model
+                EventoModel evento = new EventoModel();
+                evento.setNomeEvento(nome);
+                evento.setDescricaoEvento(descricao);
+                evento.setIdLocal(local.getIdLocal());
+                evento.setDataInicio(inicio);
+                evento.setDataFim(fim);
+                
+                //Controler
+                EventoController controller = new EventoController();
+
+                String inserirOuEditar = jbtnSalvar.getText();
+                if(inserirOuEditar.equals("Salvar")){
+                    if(controller.insert(evento)){
+                        JOptionPane.showMessageDialog(this, "Salvo com sucesso.");
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Erro ao salvar o participante.");
+                    }
                 }
-            }
-            
-            if(inserirOuEditar.equals("Salvar Edição")){
-                if(controller.editar(evento)){
-                    JOptionPane.showMessageDialog(this, "Editado com sucesso.");
-                }else{
-                    JOptionPane.showMessageDialog(this, "Erro ao editar o participante.");
+
+                if(inserirOuEditar.equals("Salvar Edição")){
+                    if(controller.update(evento)){
+                        JOptionPane.showMessageDialog(this, "Editado com sucesso.");
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Erro ao editar o participante.");
+                    }
                 }
+
+                LimparCampos();
+                InicializaTela();
+                PreencherTabelaEvento();
+                PreencherTabelaParticipantes();
+                
+            } catch(DateTimeParseException ex){
+                JOptionPane.showMessageDialog(this, "Formato de data invalido");
             }
-                    
-            LimparCampos();
-            InicializaTela();
-            PreencherTabelaEvento();
-            PreencherTabelaParticipantes();
         }
     }//GEN-LAST:event_jbtnSalvarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -382,7 +397,7 @@ public class TelaEventos extends javax.swing.JPanel {
     private javax.swing.JButton jbtnNovo;
     private javax.swing.JButton jbtnRemoverParticipantes;
     private javax.swing.JButton jbtnSalvar;
-    private javax.swing.JComboBox<String> jcbLocais;
+    private javax.swing.JComboBox<LocalModel> jcbLocais;
     private javax.swing.JTextField jtxDataFinal;
     private javax.swing.JTextField jtxDataInicio;
     private javax.swing.JTextField jtxDescricao;
@@ -395,12 +410,18 @@ public class TelaEventos extends javax.swing.JPanel {
         jbtnExcluir.setEnabled(false);
         jbtnAdicionarParticipante.setEnabled(false);
         jbtnRemoverParticipantes.setEnabled(false);
+        
+        jTableEventos.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                PreencherTabelaParticipantes();
+            }
+        });
     }
 
     // ADICIONAR AO LOCAL CONTROLER O METODO public String toString(){ return this.nome;}
     private void PreencherCBLocais(){
         LocalController controller = new LocalController();
-        ArrayList<LocalModel> listaLocais = controller.selecionarTodos();
+        ArrayList<LocalModel> listaLocais = controller.selectAll();
         
         jcbLocais.removeAllItems();
         for(LocalModel local : listaLocais){
@@ -411,33 +432,57 @@ public class TelaEventos extends javax.swing.JPanel {
     
     private void PreencherTabelaParticipantes() {
         
-        if (linhaEventos == -1){
-            // Nenhum evento selecionado
+        //Recupera Participantes do Evento
+        int linhaSelecionada = jTableEventos.getSelectedRow();
+        
+        if(linhaSelecionada == -1){
+            JOptionPane.showMessageDialog( this, "Selecione um Evento ou Crie um novo.");
             return;
         }
-        ParticipanteController controller = new ParticipanteController();
-        listaParticipantes = controller.selecionarPorEvento(linhaEventos);
         
-        DefaultTableModel modeloTabela = (DefaultTableModel)jTableParticipantesDoEvento.getModel();
+        EventoModel eventoSelecionado = listaEventos.get(linhaSelecionada);
+        int idEvento = eventoSelecionado.getIdEvento();
+        
+        ArrayList<ParticipanteModel> listaTodosParticipantes = new ParticipanteController().selectAll();
+        ArrayList<EventoParticipanteModel> relacoes = new EventoParticipanteController().selectAll();
+
+        ArrayList<ParticipanteModel> listaParticipantesDoEvento = new ArrayList<>();
+
+        for (EventoParticipanteModel ep : relacoes) {
+            if (ep.getIdEvento() == idEvento) {
+                for (ParticipanteModel p : listaTodosParticipantes) {
+                    if (p.getCpf().equals(ep.getCpfParticipante())) {
+                        listaParticipantesDoEvento.add(p);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        //Preenche a tabela Participantes do Evento
+        DefaultTableModel modeloTabela = (DefaultTableModel) jTableParticipantesDoEvento.getModel();
         modeloTabela.setRowCount(0);
-        
-        if(listaParticipantes.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Nenhum evento cadastrado.");
-        }else{
-            for(ParticipanteModel l:listaParticipantes){
+
+        if (listaParticipantesDoEvento.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum participante para este evento.");
+        } else {
+            for (ParticipanteModel p : listaParticipantesDoEvento) {
                 modeloTabela.addRow(new String[]{
-                    l.getNome(),
-                    l.getCpf(),
-                    l.getIdade(),
-                    l.getTelefone()
+                    p.getNome(),
+                    p.getCpf(),
+                    String.valueOf(p.getIdade()),
+                    p.getCelular()
                 });
             }
         }
     }
 
+
     private void PreencherTabelaEvento() {
         EventoController controller = new EventoController();
-        listaEventos = controller.selecionarTodos();
+        listaEventos = controller.selectAll();
+        
+        LocalController localcontroller = new LocalController();
         
         DefaultTableModel modeloTabela = (DefaultTableModel)jTableEventos.getModel();
         modeloTabela.setRowCount(0);
@@ -446,12 +491,16 @@ public class TelaEventos extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Nenhum evento cadastrado.");
         }else{
             for(EventoModel l:listaEventos){
+                
+                LocalModel local = localcontroller.selectById(l.getIdLocal());
+                String nomeLocal = (local != null) ? local.getNomeLocal() : "Desconhecido";
+                
                 modeloTabela.addRow(new String[]{
-                    l.getNome(),
-                    l.getDescricao(),
-                    l.getLocal(),
-                    l.getInicio(),
-                    l.getFim()
+                    l.getNomeEvento(),
+                    l.getDescricaoEvento(),
+                    nomeLocal,
+                    l.getDataInicio().toString(),
+                    l.getDataFim().toString()
                 });
             }
         }
@@ -467,8 +516,3 @@ public class TelaEventos extends javax.swing.JPanel {
 }
 
 
-/* Lembretes
-Verificar se os atributos sao String int etc e corrgir os metodos 
-Adicionar mask aos termos que nescessitam
-verificar se os metodos chamados ao controller estao funcionando
-*/

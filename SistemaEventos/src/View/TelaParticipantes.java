@@ -18,7 +18,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
         initComponents();
         InicializaTela();
         LimparCampos();
-        //PreencherTabela();
+        PreencherTabela();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -222,24 +222,25 @@ public class TelaParticipantes extends javax.swing.JPanel {
     private void jbtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSalvarActionPerformed
         String nome = jtxNome.getText();
         String cpf = jtxCpf.getText();
-        String idade = jtxIdade.getText();
+        String idadeStr = jtxIdade.getText();
         String telefone = jtxTelefone.getText();
         
-        if( (nome.isEmpty()) || (cpf.isEmpty()) || (idade.isEmpty()) || (telefone.isEmpty()) ){
+        if( (nome.isEmpty()) || (cpf.isEmpty()) || (idadeStr.isEmpty()) || (telefone.isEmpty()) ){
             JOptionPane.showMessageDialog(this, "Preencha todos os campos.");
         }else{
+            int idade = Integer.parseInt(idadeStr);
             //Model
             ParticipanteModel participante = new ParticipanteModel();
             participante.setNome(nome);
             participante.setCpf(cpf);
             participante.setIdade(idade);
-            participante.setTelefone(telefone);
+            participante.setCelular(telefone);
             //Controler
             ParticipanteController controller = new ParticipanteController();
             
             String inserirOuEditar = jbtnSalvar.getText();
             if(inserirOuEditar.equals("Salvar")){
-                if(controller.inserir(participante)){
+                if(controller.insert(participante)){
                     JOptionPane.showMessageDialog(this, "Salvo com sucesso.");
                 }else{
                     JOptionPane.showMessageDialog(this, "Erro ao salvar o participante.");
@@ -247,7 +248,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
             }
             
             if(inserirOuEditar.equals("Salvar Edição")){
-                if(controller.editar(participante)){
+                if(controller.update(participante)){
                     JOptionPane.showMessageDialog(this, "Editado com sucesso.");
                 }else{
                     JOptionPane.showMessageDialog(this, "Erro ao editar o participante.");
@@ -265,7 +266,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
         ParticipanteModel participante = listaParticipantes.get(linhaSelecionada);
         ParticipanteController controller = new ParticipanteController();
         
-        if(controller.excluir(participante)){
+        if(controller.delete(participante)){
             JOptionPane.showMessageDialog(this, "Excluido com sucesso");
             LimparCampos();
             InicializaTela();
@@ -278,7 +279,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
     
     private void PreencherTabela(){
         ParticipanteController controller = new ParticipanteController();
-        listaParticipantes = controller.selecionarTodos();
+        listaParticipantes = controller.selectAll();
         
         DefaultTableModel modeloTabela = (DefaultTableModel)jTableParticipantes.getModel();
         modeloTabela.setRowCount(0);
@@ -290,8 +291,8 @@ public class TelaParticipantes extends javax.swing.JPanel {
                 modeloTabela.addRow(new String[]{
                     p.getNome(),
                     p.getCpf(),
-                    p.getIdade(),
-                    p.getTelefone()
+                    String.valueOf(p.getIdade()),
+                    p.getCelular()
                 });
             }
         }

@@ -77,4 +77,9 @@ public class LocalModel {
         this.cidadeEndereco = cidadeEndereco;
         this.nomeLocal = nomeLocal;
     }
+    
+    @Override
+    public String toString(){
+        return this.nomeLocal;
+    }
 }

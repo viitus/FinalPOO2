@@ -13,7 +13,7 @@ public class Conexao {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/evento";
             String usuario = "root";
-            String senha = "novaSenhaForte123!";
+            String senha = "0810";
             conector = DriverManager.getConnection(url, usuario, senha);
         } catch (ClassNotFoundException e){
             System.out.println("Erro no Driver: " + e.getMessage());

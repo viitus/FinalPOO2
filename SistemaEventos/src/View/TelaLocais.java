@@ -18,7 +18,7 @@ public class TelaLocais extends javax.swing.JPanel {
         initComponents();
         InicializaTela();
         LimparCampos();
-        //PreencherTabela();
+        PreencherTabela();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -248,27 +248,28 @@ public class TelaLocais extends javax.swing.JPanel {
         String nome = jtxNome.getText();
         String cidade = jtxCidade.getText();
         String cep = jtxCep.getText();
-        String capacidade = jtxCapacidade.getText();
+        String capacidadeStr = jtxCapacidade.getText();
         String rua = jtxRua.getText();
         String numero = jtxNumero.getText();
         
-        if( (nome.isEmpty()) || (cidade.isEmpty()) || (cep.isEmpty()) || (capacidade.isEmpty()) || (rua.isEmpty()) || (numero.isEmpty()) ){
+        if( (nome.isEmpty()) || (cidade.isEmpty()) || (cep.isEmpty()) || (capacidadeStr.isEmpty()) || (rua.isEmpty()) || (numero.isEmpty()) ){
             JOptionPane.showMessageDialog(this, "Preencha todos os campos.");
         }else{
+            int capacidade = Integer.parseInt(capacidadeStr);
             //Model
             LocalModel local = new LocalModel();
-            local.setNome(nome);
-            local.setCidade(cidade);
-            local.setCep(cep);
-            local.setCapacicade(capacidade);
-            local.setRua(rua);
-            local.setNumero(numero);
+            local.setNomeLocal(nome);
+            local.setCidadeEndereco(cidade);
+            local.setCepEndereco(cep);
+            local.setCapacidade(capacidade);
+            local.setRuaEndereco(rua);
+            local.setNumEndereco(numero);
             //Controler
             LocalController controller = new LocalController();
             String inserirOuEditar = jbtnSalvar.getText();
             
             if(inserirOuEditar.equals("Salvar")){
-                if(controller.inserir(local)){
+                if(controller.insert(local)){
                     JOptionPane.showMessageDialog(this, "Salvo com sucesso.");
                 }else{
                     JOptionPane.showMessageDialog(this, "Erro ao salvar o participante.");
@@ -276,7 +277,7 @@ public class TelaLocais extends javax.swing.JPanel {
             }
             
             if(inserirOuEditar.equals("Salvar Edição")){
-                if(controller.editar(local)){
+                if(controller.update(local)){
                     JOptionPane.showMessageDialog(this, "Editado com sucesso.");
                 }else{
                     JOptionPane.showMessageDialog(this, "Erro ao editar o participante.");
@@ -339,7 +340,7 @@ public class TelaLocais extends javax.swing.JPanel {
     
     private void PreencherTabela() {
         LocalController controller = new LocalController();
-        listaLocais = controller.selecionarTodos();
+        listaLocais = controller.selectAll();
         
         DefaultTableModel modeloTabela = (DefaultTableModel)jTableLocais.getModel();
         modeloTabela.setRowCount(0);
@@ -349,13 +350,12 @@ public class TelaLocais extends javax.swing.JPanel {
         }else{
             for(LocalModel l:listaLocais){
                 modeloTabela.addRow(new String[]{
-                    l.getIdLocal(),
-                    l.getNome(),
-                    l.getCep(),
-                    l.getCidade(),
-                    l.getCapacidade(),
-                    l.getRua(),
-                    l.getNumero()
+                    l.getNomeLocal(),
+                    l.getCepEndereco(),
+                    l.getCidadeEndereco(),
+                    String.valueOf(l.getCapacidade()),
+                    l.getRuaEndereco(),
+                    l.getNumEndereco()
                 });
             }
         }
