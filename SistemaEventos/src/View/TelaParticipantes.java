@@ -1,3 +1,5 @@
+/* @author victo*/
+
 package View;
 
 import java.util.ArrayList;
@@ -7,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import Model.ParticipanteModel;
 import Controller.ParticipanteController;
 
-/* @author victo*/
 public class TelaParticipantes extends javax.swing.JPanel {
 
     private int linha = -1;
@@ -17,7 +18,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
         initComponents();
         InicializaTela();
         LimparCampos();
-        PreencherTabela();
+        //PreencherTabela();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -215,6 +216,9 @@ public class TelaParticipantes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTableParticipantesMouseClicked
 
+   
+    
+    
     private void jbtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSalvarActionPerformed
         String nome = jtxNome.getText();
         String cpf = jtxCpf.getText();
@@ -293,7 +297,8 @@ public class TelaParticipantes extends javax.swing.JPanel {
         }
     }
     
-    
+
+
     public void InicializaTela(){
         jbtnNovo.setEnabled(true);
         jbtnExcluir.setEnabled(false);
@@ -324,3 +329,10 @@ public class TelaParticipantes extends javax.swing.JPanel {
     private javax.swing.JTextField jtxTelefone;
     // End of variables declaration//GEN-END:variables
 }
+
+
+/* Lembretes
+Verificar se os atributos sao String int etc e corrgir os metodos 
+Adicionar mask aos termos que nescessitam
+verificar se os metodos chamados ao controller estao funcionando
+*/

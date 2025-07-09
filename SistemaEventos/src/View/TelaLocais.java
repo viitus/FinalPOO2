@@ -1,6 +1,6 @@
-package View;
-
 /* @author victo*/
+
+package View;
 
 import Model.LocalModel;
 import Controller.LocalController;
@@ -18,7 +18,7 @@ public class TelaLocais extends javax.swing.JPanel {
         initComponents();
         InicializaTela();
         LimparCampos();
-        PreencherTabela();
+        //PreencherTabela();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -211,6 +211,7 @@ public class TelaLocais extends javax.swing.JPanel {
         jtxNome.setEditable(true);
         jtxNumero.setEditable(true);
         jtxRua.setEditable(true);
+        
         LimparCampos();
     }//GEN-LAST:event_jbtnNovoActionPerformed
 
@@ -241,6 +242,8 @@ public class TelaLocais extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTableLocaisMouseClicked
 
+  
+    
     private void jbtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSalvarActionPerformed
         String nome = jtxNome.getText();
         String cidade = jtxCidade.getText();
@@ -285,7 +288,8 @@ public class TelaLocais extends javax.swing.JPanel {
             PreencherTabela();
         }
     }//GEN-LAST:event_jbtnSalvarActionPerformed
-
+    
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -331,6 +335,8 @@ public class TelaLocais extends javax.swing.JPanel {
         jtxRua.setText("");
     }
 
+ 
+    
     private void PreencherTabela() {
         LocalController controller = new LocalController();
         listaLocais = controller.selecionarTodos();
@@ -354,4 +360,13 @@ public class TelaLocais extends javax.swing.JPanel {
             }
         }
     }
+
+  
 }
+
+
+/* Lembretes
+Verificar se os atributos sao String int etc e corrgir os metodos 
+Adicionar mask aos termos que nescessitam
+verificar se os metodos chamados ao controller estao funcionando
+*/
