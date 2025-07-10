@@ -8,6 +8,10 @@ import javax.swing.table.DefaultTableModel;
 
 import Model.ParticipanteModel;
 import Controller.ParticipanteController;
+import java.text.ParseException;
+import javax.swing.JFormattedTextField;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 public class TelaParticipantes extends javax.swing.JPanel {
 
@@ -27,17 +31,17 @@ public class TelaParticipantes extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jtxNome = new javax.swing.JTextField();
-        jtxCpf = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jtxIdade = new javax.swing.JTextField();
-        jtxTelefone = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jbtnNovo = new javax.swing.JButton();
         jbtnExcluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableParticipantes = new javax.swing.JTable();
         jbtnSalvar = new javax.swing.JButton();
+        jftxCpf = new javax.swing.JFormattedTextField();
+        jftxTelefone = new javax.swing.JFormattedTextField();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Participantes");
@@ -47,8 +51,6 @@ public class TelaParticipantes extends javax.swing.JPanel {
 
         jtxNome.setColumns(10);
 
-        jtxCpf.setColumns(10);
-
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel4.setText("CPF:");
 
@@ -56,8 +58,6 @@ public class TelaParticipantes extends javax.swing.JPanel {
         jLabel5.setText("Idade:");
 
         jtxIdade.setColumns(10);
-
-        jtxTelefone.setColumns(10);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Telefone:");
@@ -78,13 +78,13 @@ public class TelaParticipantes extends javax.swing.JPanel {
 
         jTableParticipantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Nome", "CPF", "Idade", "Telefone"
+                "Nome", "CPF", "Idade", "Telefone"
             }
         ));
         jTableParticipantes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -100,6 +100,19 @@ public class TelaParticipantes extends javax.swing.JPanel {
                 jbtnSalvarActionPerformed(evt);
             }
         });
+
+        try {
+            jftxCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("\"###.###.###-##\"")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jftxCpf.setToolTipText("");
+
+        try {
+            jftxTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -121,11 +134,11 @@ public class TelaParticipantes extends javax.swing.JPanel {
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtxIdade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtxCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtxNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtxIdade)
+                            .addComponent(jtxNome)
+                            .addComponent(jftxCpf)
+                            .addComponent(jftxTelefone))
                         .addGap(43, 43, 43)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jbtnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -136,7 +149,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -147,7 +160,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jtxCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jftxCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
@@ -155,7 +168,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jtxTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jftxTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbtnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -163,7 +176,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbtnExcluir)
                         .addGap(33, 33, 33)))
-                .addGap(44, 44, 44)
+                .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(45, Short.MAX_VALUE))
         );
@@ -172,9 +185,9 @@ public class TelaParticipantes extends javax.swing.JPanel {
     
     private void LimparCampos(){
         jtxNome.setText("");
-        jtxCpf.setText("");
+        jftxCpf.setValue(null);
         jtxIdade.setText("");
-        jtxTelefone.setText("");
+        jftxTelefone.setValue(null);
     }
     
     
@@ -184,10 +197,10 @@ public class TelaParticipantes extends javax.swing.JPanel {
         jbtnSalvar.setEnabled(true);
         jbtnSalvar.setText("Salvar");
         
-        jtxCpf.setEditable(true);
+        jftxCpf.setEditable(true);
         jtxIdade.setEditable(true);
         jtxNome.setEditable(true);
-        jtxTelefone.setEditable(true);
+        jftxTelefone.setEditable(true);
         
         LimparCampos();
     }//GEN-LAST:event_jbtnNovoActionPerformed
@@ -198,19 +211,19 @@ public class TelaParticipantes extends javax.swing.JPanel {
         
         if(linha != -1){
             jtxNome.setText(jTableParticipantes.getValueAt(linha, 0).toString());
-            jtxCpf.setText(jTableParticipantes.getValueAt(linha, 1).toString()); //cpf
-            jtxIdade.setText(jTableParticipantes.getValueAt(linha, 2).toString());//idade
-            jtxTelefone.setText(jTableParticipantes.getValueAt(linha, 3).toString());//telefone
+            jftxCpf.setText(jTableParticipantes.getValueAt(linha, 1).toString()); 
+            jtxIdade.setText(jTableParticipantes.getValueAt(linha, 2).toString());
+            jftxTelefone.setText(jTableParticipantes.getValueAt(linha, 3).toString());
             
             jbtnNovo.setEnabled(true);
             jbtnExcluir.setEnabled(true);
             jbtnSalvar.setEnabled(true);
             jbtnSalvar.setText("Salvar Edição");
 
-            jtxCpf.setEditable(true);
+            jftxCpf.setEditable(false);
             jtxIdade.setEditable(true);
             jtxNome.setEditable(true);
-            jtxTelefone.setEditable(true);
+            jftxTelefone.setEditable(true);
             
             linha = -1;
         }
@@ -221,9 +234,9 @@ public class TelaParticipantes extends javax.swing.JPanel {
     
     private void jbtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSalvarActionPerformed
         String nome = jtxNome.getText();
-        String cpf = jtxCpf.getText();
+        String cpf = jftxCpf.getText();
         String idadeStr = jtxIdade.getText();
-        String telefone = jtxTelefone.getText();
+        String telefone = jftxTelefone.getText();
         
         if( (nome.isEmpty()) || (cpf.isEmpty()) || (idadeStr.isEmpty()) || (telefone.isEmpty()) ){
             JOptionPane.showMessageDialog(this, "Preencha todos os campos.");
@@ -285,7 +298,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
         modeloTabela.setRowCount(0);
         
         if(listaParticipantes.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Nenhum participante cadastrado.");
+            System.out.println("Nenhum participante cadastrado.");
         }else{
             for(ParticipanteModel p:listaParticipantes){
                 modeloTabela.addRow(new String[]{
@@ -306,10 +319,26 @@ public class TelaParticipantes extends javax.swing.JPanel {
         jbtnSalvar.setEnabled(false);
         jbtnSalvar.setText("Salvar");
         
-        jtxCpf.setEditable(false);
+        jftxCpf.setEditable(false);
         jtxIdade.setEditable(false);
         jtxNome.setEditable(false);
-        jtxTelefone.setEditable(false);
+        jftxTelefone.setEditable(false);
+        
+       
+        try {
+            MaskFormatter cpfMask = new MaskFormatter("###.###.###-##");
+            cpfMask.setPlaceholderCharacter('_');
+            jftxCpf.setFormatterFactory(new DefaultFormatterFactory(cpfMask));
+            jftxCpf.setValue(null);
+            
+            MaskFormatter telefoneMask = new MaskFormatter("(##) #####-####");
+            telefoneMask.setPlaceholderCharacter('_');
+            jftxTelefone.setFormatterFactory(new DefaultFormatterFactory(telefoneMask));
+            jftxTelefone.setValue(null);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
     }
     
     
@@ -324,16 +353,9 @@ public class TelaParticipantes extends javax.swing.JPanel {
     private javax.swing.JButton jbtnExcluir;
     private javax.swing.JButton jbtnNovo;
     private javax.swing.JButton jbtnSalvar;
-    private javax.swing.JTextField jtxCpf;
+    private javax.swing.JFormattedTextField jftxCpf;
+    private javax.swing.JFormattedTextField jftxTelefone;
     private javax.swing.JTextField jtxIdade;
     private javax.swing.JTextField jtxNome;
-    private javax.swing.JTextField jtxTelefone;
     // End of variables declaration//GEN-END:variables
 }
-
-
-/* Lembretes
-Verificar se os atributos sao String int etc e corrgir os metodos 
-Adicionar mask aos termos que nescessitam
-verificar se os metodos chamados ao controller estao funcionando
-*/

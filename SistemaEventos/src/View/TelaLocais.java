@@ -4,10 +4,13 @@ package View;
 
 import Model.LocalModel;
 import Controller.LocalController;
+import java.text.ParseException;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 public class TelaLocais extends javax.swing.JPanel {
 
@@ -40,8 +43,8 @@ public class TelaLocais extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableLocais = new javax.swing.JTable();
         jbtnExcluir = new javax.swing.JButton();
-        jtxCep = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jtxCep = new javax.swing.JFormattedTextField();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Locais");
@@ -87,13 +90,13 @@ public class TelaLocais extends javax.swing.JPanel {
 
         jTableLocais.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Rua", "Número", "Cidade", "CEP", "Capacidade"
+                "Nome", "Rua", "Número", "Cidade", "CEP", "Capacidade", "id"
             }
         ));
         jTableLocais.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,8 +107,6 @@ public class TelaLocais extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTableLocais);
 
         jbtnExcluir.setText("Excluir");
-
-        jtxCep.setColumns(10);
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel7.setText("CEP:");
@@ -145,14 +146,14 @@ public class TelaLocais extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jtxCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jtxCep, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jtxNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtxCapacidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(34, 34, 34)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtxCapacidade)))
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jbtnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jbtnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -226,7 +227,7 @@ public class TelaLocais extends javax.swing.JPanel {
             jtxCep.setText(jTableLocais.getValueAt(linha, 4).toString());            
             jtxCapacidade.setText(jTableLocais.getValueAt(linha, 5).toString());
             
-            jbtnNovo.setEnabled(true);
+            jbtnNovo.setEnabled(false);
             jbtnSalvar.setEnabled(true);
             jbtnExcluir.setEnabled(true);
             jbtnSalvar.setText("Salvar Edição");
@@ -277,6 +278,9 @@ public class TelaLocais extends javax.swing.JPanel {
             }
             
             if(inserirOuEditar.equals("Salvar Edição")){
+                linha = jTableLocais.getSelectedRow();
+                int idLocalSelecionado = Integer.parseInt(jTableLocais.getValueAt(linha,6).toString());
+                local.setIdLocal(idLocalSelecionado);
                 if(controller.update(local)){
                     JOptionPane.showMessageDialog(this, "Editado com sucesso.");
                 }else{
@@ -306,7 +310,7 @@ public class TelaLocais extends javax.swing.JPanel {
     private javax.swing.JButton jbtnNovo;
     private javax.swing.JButton jbtnSalvar;
     private javax.swing.JTextField jtxCapacidade;
-    private javax.swing.JTextField jtxCep;
+    private javax.swing.JFormattedTextField jtxCep;
     private javax.swing.JTextField jtxCidade;
     private javax.swing.JTextField jtxNome;
     private javax.swing.JTextField jtxNumero;
@@ -325,6 +329,18 @@ public class TelaLocais extends javax.swing.JPanel {
         jtxNome.setEditable(false);
         jtxNumero.setEditable(false);
         jtxRua.setEditable(false);
+        
+        
+        try {
+            MaskFormatter cepMask = new MaskFormatter("#####-###");
+            cepMask.setPlaceholderCharacter('_');
+            jtxCep.setFormatterFactory(new DefaultFormatterFactory(cepMask));
+            jtxCep.setValue(null);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        
     }
 
     private void LimparCampos() {
@@ -346,18 +362,22 @@ public class TelaLocais extends javax.swing.JPanel {
         modeloTabela.setRowCount(0);
         
         if(listaLocais.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Nenhum local cadastrado.");
+            System.out.println("Nenhum local cadastrado.");
         }else{
             for(LocalModel l:listaLocais){
                 modeloTabela.addRow(new String[]{
                     l.getNomeLocal(),
-                    l.getCepEndereco(),
-                    l.getCidadeEndereco(),
-                    String.valueOf(l.getCapacidade()),
                     l.getRuaEndereco(),
-                    l.getNumEndereco()
+                    l.getNumEndereco(),
+                    l.getCidadeEndereco(),
+                    l.getCepEndereco(),
+                    String.valueOf(l.getCapacidade()),
+                    String.valueOf(l.getIdLocal())
                 });
             }
+            jTableLocais.getColumnModel().getColumn(6).setMinWidth(0);
+            jTableLocais.getColumnModel().getColumn(6).setMaxWidth(0);
+            jTableLocais.getColumnModel().getColumn(6).setWidth(0);
         }
     }
 
@@ -365,8 +385,3 @@ public class TelaLocais extends javax.swing.JPanel {
 }
 
 
-/* Lembretes
-Verificar se os atributos sao String int etc e corrgir os metodos 
-Adicionar mask aos termos que nescessitam
-verificar se os metodos chamados ao controller estao funcionando
-*/

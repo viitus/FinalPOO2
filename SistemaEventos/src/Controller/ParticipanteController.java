@@ -2,6 +2,7 @@ package Controller;
 
 import Model.ParticipanteModel;
 import Util.Conexao;
+import java.security.Timestamp;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +44,7 @@ public class ParticipanteController {
         ArrayList<ParticipanteModel> retorno = new ArrayList<>();
         Conexao conexao = new Conexao();
         conexao.conectar();
-        String sql = "select * from participante";
+        String sql = "SELECT * FROM participante";
 
         try {
             PreparedStatement sentenca = conexao.conector.prepareStatement(sql);
@@ -54,7 +55,15 @@ public class ParticipanteController {
                 participante.setIdade(resultquery.getInt("idade"));
                 participante.setNome(resultquery.getString("nome"));
                 participante.setCelular(resultquery.getString("celular"));
-                participante.setCriadoEm(resultquery.getTimestamp("criado_em").toLocalDateTime());
+                
+                java.sql.Timestamp ts = resultquery.getTimestamp("criado_em");
+                if (ts != null) {
+                    participante.setCriadoEm(ts.toLocalDateTime());
+                } else {
+                    participante.setCriadoEm(null); // ou LocalDateTime.now(), se preferir uma data padrão
+                }
+                
+                
                 retorno.add(participante);
             }
         } catch (SQLException e) {

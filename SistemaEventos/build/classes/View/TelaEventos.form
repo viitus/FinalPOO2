@@ -33,14 +33,14 @@
                           <Component id="jLabel7" alignment="1" min="-2" pref="107" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jcbLocais" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jtxDataFinal" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jtxDataInicio" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jcbLocais" alignment="0" max="32767" attributes="0"/>
                           <Component id="jtxDescricao" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jtxNome" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jtxNome" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jtxDataInicio" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jbtnExcluir" max="32767" attributes="0"/>
                           <Component id="jbtnSalvar" max="32767" attributes="0"/>
@@ -108,13 +108,13 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jtxDataInicio" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jtxDataInicio" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jtxDataFinal" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jtxDataFinal" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -145,16 +145,6 @@
       <Properties>
         <Property name="horizontalAlignment" type="int" value="11"/>
         <Property name="text" type="java.lang.String" value="Data de Inicio:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jtxDataInicio">
-      <Properties>
-        <Property name="columns" type="int" value="10"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jtxDataFinal">
-      <Properties>
-        <Property name="columns" type="int" value="10"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -282,6 +272,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Participantes"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnAdicionarParticipanteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jbtnRemoverParticipantes">
       <Properties>
@@ -298,16 +291,22 @@
         <Component class="javax.swing.JTable" name="jTableEventos">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="4">
+              <Table columnCount="6" rowCount="4">
                 <Column editable="true" title="Nome" type="java.lang.Object"/>
                 <Column editable="true" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
                 <Column editable="true" title="Local" type="java.lang.Object"/>
                 <Column editable="true" title="In&#xed;cio" type="java.lang.Object"/>
                 <Column editable="true" title="Fim" type="java.lang.Object"/>
+                <Column editable="true" title="id" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -345,5 +344,9 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JFormattedTextField" name="jtxDataInicio">
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="jtxDataFinal">
+    </Component>
   </SubComponents>
 </Form>

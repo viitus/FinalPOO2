@@ -11,7 +11,16 @@ public class AtividadeModel {
     private LocalDateTime horaInicio;
     private LocalDateTime horaFim;
     private LocalDateTime criadoEm;
+    private int idEvento;
 
+    public int getIdEvento() {
+        return idEvento;
+    }
+
+    public void setIdEvento(int idEvento) {
+        this.idEvento = idEvento;
+    }
+    
 
     public int getIdAtividade() {
         return idAtividade;
@@ -64,12 +73,13 @@ public class AtividadeModel {
     public AtividadeModel() {
     }
 
-    public AtividadeModel(int idAtividade, String tipoAtividade, String tituloAtividade, LocalDateTime horaInicio, LocalDateTime horaFim, LocalDateTime criadoEm) {
+    public AtividadeModel(int idAtividade, String tipoAtividade, String tituloAtividade, LocalDateTime horaInicio, LocalDateTime horaFim, LocalDateTime criadoEm, int idEvento) {
         this.idAtividade = idAtividade;
         this.tipoAtividade = tipoAtividade;
         this.tituloAtividade = tituloAtividade;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
         this.criadoEm = criadoEm;
+        this.idEvento = idEvento;
     }
 }

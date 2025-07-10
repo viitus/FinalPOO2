@@ -10,13 +10,16 @@ import Model.LocalModel;
 import Model.EventoModel;
 import Model.EventoParticipanteModel;
 import Model.ParticipanteModel;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 public class TelaEventos extends javax.swing.JPanel {
 
@@ -39,8 +42,6 @@ public class TelaEventos extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jtxDataInicio = new javax.swing.JTextField();
-        jtxDataFinal = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jbtnNovo = new javax.swing.JButton();
@@ -58,16 +59,14 @@ public class TelaEventos extends javax.swing.JPanel {
         jbtnRemoverParticipantes = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableEventos = new javax.swing.JTable();
+        jtxDataInicio = new javax.swing.JFormattedTextField();
+        jtxDataFinal = new javax.swing.JFormattedTextField();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Eventos");
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel5.setText("Data de Inicio:");
-
-        jtxDataInicio.setColumns(10);
-
-        jtxDataFinal.setColumns(10);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Data de Fim:");
@@ -127,6 +126,11 @@ public class TelaEventos extends javax.swing.JPanel {
         jLabel8.setText("Participantes do Evento");
 
         jbtnAdicionarParticipante.setText("Adicionar Participantes");
+        jbtnAdicionarParticipante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAdicionarParticipanteActionPerformed(evt);
+            }
+        });
 
         jbtnRemoverParticipantes.setText("Remover Selecionado");
         jbtnRemoverParticipantes.addActionListener(new java.awt.event.ActionListener() {
@@ -137,13 +141,13 @@ public class TelaEventos extends javax.swing.JPanel {
 
         jTableEventos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Descrição", "Local", "Início", "Fim"
+                "Nome", "Descrição", "Local", "Início", "Fim", "id"
             }
         ));
         jTableEventos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -172,13 +176,13 @@ public class TelaEventos extends javax.swing.JPanel {
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jcbLocais, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtxDataFinal)
-                            .addComponent(jtxDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtxDescricao)
-                            .addComponent(jtxNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jtxDataFinal, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbLocais, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtxDescricao, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxNome, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxDataInicio))
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jbtnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jbtnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -231,12 +235,12 @@ public class TelaEventos extends javax.swing.JPanel {
                                     .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtxDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel5)
+                                    .addComponent(jtxDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtxDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
+                                    .addComponent(jLabel6)
+                                    .addComponent(jtxDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jcbLocais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,6 +257,13 @@ public class TelaEventos extends javax.swing.JPanel {
         jbtnExcluir.setEnabled(false);
         jbtnAdicionarParticipante.setEnabled(true);
         jbtnRemoverParticipantes.setEnabled(false); 
+        
+        jtxNome.setEditable(true);
+        jtxDescricao.setEditable(true);
+        jtxDataInicio.setEditable(true);
+        jtxDataFinal.setEditable(true);
+        
+        LimparCampos();
     }//GEN-LAST:event_jbtnNovoActionPerformed
 
     private void jTableEventosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEventosMouseClicked
@@ -265,7 +276,7 @@ public class TelaEventos extends javax.swing.JPanel {
             jtxDataInicio.setText(jTableEventos.getValueAt(linhaEventos, 3).toString());
             jtxDataFinal.setText(jTableEventos.getValueAt(linhaEventos, 4).toString());            
             
-            jbtnNovo.setEnabled(true);
+            jbtnNovo.setEnabled(false);
             jbtnSalvar.setEnabled(true);
             jbtnExcluir.setEnabled(true);
             jbtnSalvar.setText("Salvar Edição");
@@ -297,12 +308,23 @@ public class TelaEventos extends javax.swing.JPanel {
     }//GEN-LAST:event_jTableParticipantesDoEventoMouseClicked
 
     private void jbtnRemoverParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverParticipantesActionPerformed
-        int linhaSelecionada = jTableParticipantesDoEvento.getSelectedRow();
-        ParticipanteModel participante = listaParticipantes.get(linhaSelecionada);
-        EventoController controller = new EventoController();
+        int linhaParticipante = jTableParticipantesDoEvento.getSelectedRow();
+        int linhaEvento = jTableEventos.getSelectedRow();
         
-        if(controller.RemoverParticipante(participante)){
-            JOptionPane.showMessageDialog(this, "Excluido com sucesso.");
+        if (linhaEvento == -1 || linhaParticipante == -1){
+            JOptionPane.showMessageDialog(this, "Selecione o Evento e o Participante.");
+        }
+        
+        EventoModel eventoSelecionado = listaEventos.get(linhaEvento);
+        ParticipanteModel participanteSelecionado = listaParticipantes.get(linhaParticipante);
+        
+        EventoParticipanteModel epModel = new EventoParticipanteModel();
+        epModel.setCpfParticipante(participanteSelecionado.getCpf());
+        epModel.setIdEvento(eventoSelecionado.getIdEvento());
+        
+        EventoParticipanteController controller = new EventoParticipanteController();
+        if(controller.delete(epModel)){
+            JOptionPane.showMessageDialog(this, "Participante removido do evento com sucesso.");
             PreencherTabelaParticipantes();
         }else{
             JOptionPane.showMessageDialog(this, "Erro ao excluir.");
@@ -338,20 +360,20 @@ public class TelaEventos extends javax.swing.JPanel {
             try{
                 //Converter para localdateTime
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDateTime inicio = LocalDateTime.parse(dataInicio, formatter);
-                LocalDateTime fim = LocalDateTime.parse(dataFinal, formatter);
+                LocalDate inicio = LocalDate.parse(dataInicio, formatter);
+                LocalDate fim = LocalDate.parse(dataFinal, formatter);
                 
                 //Model
                 EventoModel evento = new EventoModel();
                 evento.setNomeEvento(nome);
                 evento.setDescricaoEvento(descricao);
                 evento.setIdLocal(local.getIdLocal());
-                evento.setDataInicio(inicio);
-                evento.setDataFim(fim);
+                evento.setDataInicio(inicio.atStartOfDay());
+                evento.setDataFim(fim.atStartOfDay());
                 
                 //Controler
                 EventoController controller = new EventoController();
-
+                
                 String inserirOuEditar = jbtnSalvar.getText();
                 if(inserirOuEditar.equals("Salvar")){
                     if(controller.insert(evento)){
@@ -362,6 +384,9 @@ public class TelaEventos extends javax.swing.JPanel {
                 }
 
                 if(inserirOuEditar.equals("Salvar Edição")){
+                    linhaEventos = jTableEventos.getSelectedRow();
+                    int idEventoSelecionado = Integer.parseInt(jTableEventos.getValueAt(linhaEventos, 5).toString());
+                    evento.setIdEvento(idEventoSelecionado);
                     if(controller.update(evento)){
                         JOptionPane.showMessageDialog(this, "Editado com sucesso.");
                     }else{
@@ -379,6 +404,10 @@ public class TelaEventos extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jbtnSalvarActionPerformed
+
+    private void jbtnAdicionarParticipanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdicionarParticipanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnAdicionarParticipanteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -398,8 +427,8 @@ public class TelaEventos extends javax.swing.JPanel {
     private javax.swing.JButton jbtnRemoverParticipantes;
     private javax.swing.JButton jbtnSalvar;
     private javax.swing.JComboBox<LocalModel> jcbLocais;
-    private javax.swing.JTextField jtxDataFinal;
-    private javax.swing.JTextField jtxDataInicio;
+    private javax.swing.JFormattedTextField jtxDataFinal;
+    private javax.swing.JFormattedTextField jtxDataInicio;
     private javax.swing.JTextField jtxDescricao;
     private javax.swing.JTextField jtxNome;
     // End of variables declaration//GEN-END:variables
@@ -411,14 +440,31 @@ public class TelaEventos extends javax.swing.JPanel {
         jbtnAdicionarParticipante.setEnabled(false);
         jbtnRemoverParticipantes.setEnabled(false);
         
+        jtxNome.setEditable(false);
+        jtxDescricao.setEditable(false);
+        jtxDataInicio.setEditable(false);
+        jtxDataFinal.setEditable(false);
+        
         jTableEventos.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 PreencherTabelaParticipantes();
             }
         });
+        
+        
+        try {
+            MaskFormatter dataMask = new MaskFormatter("##/##/####");
+            dataMask.setPlaceholderCharacter('_');
+            jtxDataFinal.setFormatterFactory(new DefaultFormatterFactory(dataMask));
+            jtxDataFinal.setValue(null);
+            jtxDataInicio.setFormatterFactory(new DefaultFormatterFactory(dataMask));
+            jtxDataInicio.setValue(null);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
-    // ADICIONAR AO LOCAL CONTROLER O METODO public String toString(){ return this.nome;}
+    
     private void PreencherCBLocais(){
         LocalController controller = new LocalController();
         ArrayList<LocalModel> listaLocais = controller.selectAll();
@@ -427,7 +473,6 @@ public class TelaEventos extends javax.swing.JPanel {
         for(LocalModel local : listaLocais){
             jcbLocais.addItem(local);
         }
-        
     }
     
     private void PreencherTabelaParticipantes() {
@@ -436,7 +481,7 @@ public class TelaEventos extends javax.swing.JPanel {
         int linhaSelecionada = jTableEventos.getSelectedRow();
         
         if(linhaSelecionada == -1){
-            JOptionPane.showMessageDialog( this, "Selecione um Evento ou Crie um novo.");
+            System.out.println("Nenhum Participante cadastrado no evento");
             return;
         }
         
@@ -464,7 +509,7 @@ public class TelaEventos extends javax.swing.JPanel {
         modeloTabela.setRowCount(0);
 
         if (listaParticipantesDoEvento.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nenhum participante para este evento.");
+            System.out.println( "Nenhum participante para este evento.");
         } else {
             for (ParticipanteModel p : listaParticipantesDoEvento) {
                 modeloTabela.addRow(new String[]{
@@ -481,38 +526,39 @@ public class TelaEventos extends javax.swing.JPanel {
     private void PreencherTabelaEvento() {
         EventoController controller = new EventoController();
         listaEventos = controller.selectAll();
-        
         LocalController localcontroller = new LocalController();
-        
-        DefaultTableModel modeloTabela = (DefaultTableModel)jTableEventos.getModel();
+
+        DefaultTableModel modeloTabela = (DefaultTableModel) jTableEventos.getModel();
         modeloTabela.setRowCount(0);
-        
-        if(listaEventos.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Nenhum evento cadastrado.");
-        }else{
-            for(EventoModel l:listaEventos){
-                
+
+        if (listaEventos.isEmpty()) {
+            System.out.println("Nenhum evento cadastrado.");
+        } else {
+            for (EventoModel l : listaEventos) {
                 LocalModel local = localcontroller.selectById(l.getIdLocal());
                 String nomeLocal = (local != null) ? local.getNomeLocal() : "Desconhecido";
-                
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
                 modeloTabela.addRow(new String[]{
                     l.getNomeEvento(),
                     l.getDescricaoEvento(),
                     nomeLocal,
-                    l.getDataInicio().toString(),
-                    l.getDataFim().toString()
+                    l.getDataInicio().format(formatter),
+                    l.getDataFim().format(formatter),
+                    String.valueOf(l.getIdEvento()) 
                 });
             }
+            jTableEventos.getColumnModel().getColumn(5).setMinWidth(0);
+            jTableEventos.getColumnModel().getColumn(5).setMaxWidth(0);
+            jTableEventos.getColumnModel().getColumn(5).setWidth(0);
         }
     }
 
     private void LimparCampos() {
         jtxNome.setText("");
         jtxDescricao.setText("");
-        jtxDataInicio.setText("");
-        jtxDataFinal.setText("");
         jcbLocais.setSelectedIndex(0);
     }
 }
-
-
+//socorro

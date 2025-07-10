@@ -31,6 +31,7 @@ public class AtividadeController {
                 retorno.setHoraInicio(resultquery.getTimestamp("hora_inicio").toLocalDateTime());
                 retorno.setHoraFim(resultquery.getTimestamp("hora_fim").toLocalDateTime());
                 retorno.setCriadoEm(resultquery.getTimestamp("criado_em").toLocalDateTime());
+                retorno.setIdEvento(resultquery.getInt("id_evento"));
             }
         } catch (SQLException e) {
             System.out.println("Erro Select Atividade: " + e.getMessage());
@@ -58,6 +59,7 @@ public class AtividadeController {
                 atividade.setHoraInicio(resultquery.getTimestamp("hora_inicio").toLocalDateTime());
                 atividade.setHoraFim(resultquery.getTimestamp("hora_fim").toLocalDateTime());
                 atividade.setCriadoEm(resultquery.getTimestamp("criado_em").toLocalDateTime());
+                atividade.setIdEvento(resultquery.getInt("id_evento"));
                 retorno.add(atividade);
             }
         } catch (SQLException e) {
@@ -73,7 +75,7 @@ public class AtividadeController {
         boolean result = false;
         Conexao conexao = new Conexao();
         conexao.conectar();
-        String sql = "insert into atividade (tipo, titulo, hora_inicio, hora_fim, criado_em) values (?,?,?,?,?)";
+        String sql = "insert into atividade (tipo, titulo, hora_inicio, hora_fim, criado_em, id_evento) values (?,?,?,?,?,?)";
         try {
             PreparedStatement sentenca = conexao.conector.prepareStatement(sql);
             sentenca.setString(1, atividade.getTipoAtividade());
@@ -81,7 +83,7 @@ public class AtividadeController {
             sentenca.setObject(3, atividade.getHoraInicio());
             sentenca.setObject(4, atividade.getHoraFim());
             sentenca.setObject(5, atividade.getCriadoEm());
-
+            sentenca.setInt(6,atividade.getIdEvento());
             if (!sentenca.execute()){
                 result = true;
             }
@@ -100,7 +102,7 @@ public class AtividadeController {
 
         Conexao conexao = new Conexao();
         conexao.conectar();
-        String sql = "update atividade set tipo = ?, titulo = ?, hora_inicio = ?, hora_fim = ?, criado_em = ? where id = ?";
+        String sql = "UPDATE atividade SET tipo = ?, titulo = ?, hora_inicio = ?, hora_fim = ?, criado_em = ?, id_evento = ? WHERE id = ?";
 
         try {
             PreparedStatement sentenca = conexao.conector.prepareStatement(sql);
@@ -109,8 +111,9 @@ public class AtividadeController {
             sentenca.setObject(3, atividade.getHoraInicio());
             sentenca.setObject(4, atividade.getHoraFim());
             sentenca.setObject(5, atividade.getCriadoEm());
-            sentenca.setInt(6, atividade.getIdAtividade());
-
+            sentenca.setInt(6, atividade.getIdEvento());
+            sentenca.setInt(7, atividade.getIdAtividade());
+         
             if (!sentenca.execute()){
                 result = true;
             }

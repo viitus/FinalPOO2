@@ -25,7 +25,7 @@ public class TelaAtividades extends javax.swing.JPanel {
         jcbEventos.addActionListener(e->{
             EventoModel evento = (EventoModel) jcbEventos.getSelectedItem();
             if (evento != null){
-                PreencherTabelaAtividades(evento.getIdEvento());
+                PreencherTabelaAtividades();
             }
         });  
     }
@@ -210,7 +210,7 @@ public class TelaAtividades extends javax.swing.JPanel {
     private javax.swing.JButton jbtnExcluir;
     private javax.swing.JButton jbtnNovo;
     private javax.swing.JButton jbtnSalvar;
-    private javax.swing.JComboBox<String> jcbEventos;
+    private javax.swing.JComboBox<EventoModel> jcbEventos;
     private javax.swing.JTextField jtxHoraFim;
     private javax.swing.JTextField jtxHoraInicio;
     private javax.swing.JTextField jtxTipo;
@@ -218,7 +218,6 @@ public class TelaAtividades extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     
-// ADICIONAR AO EventoController -> public String toString(){ return this.nome;}
     private void PreencherCBEventos(){
         EventoController controller = new EventoController();
         ArrayList<EventoModel> listaEventos = controller.selectAll();
@@ -242,24 +241,42 @@ public class TelaAtividades extends javax.swing.JPanel {
         jtxHoraFim.setEditable(false);
     }
 
-    private void PreencherTabelaAtividades(int idEvento) {
+    private void PreencherTabelaAtividades() {
+        
+        EventoModel eventoSelecionado = (EventoModel) jcbEventos.getSelectedItem();
+        
+        if (eventoSelecionado == null){
+            JOptionPane.showMessageDialog(this, "Selecione um evento");
+            return;
+        }
+        
+        int idEvento = eventoSelecionado.getIdEvento();
         
         AtividadeController controller = new AtividadeController();
-        listaAtividades = controller.selecionarPorEvento(idEvento);
+        listaAtividades = controller.selectAll();
         
         DefaultTableModel modeloTabela = (DefaultTableModel)jTableAtividades.getModel();
         modeloTabela.setRowCount(0);
         
+        boolean encontrou = false;
+        
         if(listaAtividades.isEmpty()){
             JOptionPane.showMessageDialog(this, "Nenhuma atividade cadastrada.");
         }else{
-            for(AtividadeModel l:listaAtividades){
-                modeloTabela.addRow(new String[]{
-                    l.getTipoAtividade(),
-                    l.getTituloAtividade(),
-                    String.valueOf(l.getHoraInicio()),
-                    String.valueOf(l.getHoraFim())
-                });
+            for(AtividadeModel atividade:listaAtividades){
+                if(atividade.getIdEvento() == idEvento){
+                    modeloTabela.addRow(new String[]{
+                        atividade.getTipoAtividade(),
+                        atividade.getTituloAtividade(),
+                        String.valueOf(atividade.getHoraInicio()),
+                        String.valueOf(atividade.getHoraFim())
+                    });
+                    encontrou = true;
+                }
+     
+            }
+            if(!encontrou){
+                JOptionPane.showMessageDialog(this, "Nenhuma atividade encontrada para esse evento.");
             }
         }
     }
@@ -269,6 +286,6 @@ public class TelaAtividades extends javax.swing.JPanel {
         jtxTitulo.setText("");
         jtxHoraInicio.setText("");
         jtxHoraFim.setText(""); 
-        jcbEventos.setSelectedIndex(0);
+        //jcbEventos.setSelectedIndex(0);
     }
 }
