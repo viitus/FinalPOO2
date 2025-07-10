@@ -89,15 +89,16 @@ public class EventoParticipanteController {
         Conexao conexao = new Conexao();
         conexao.conectar();
 
-        String sql = "delete from evento_participante where id_evento = ? and cpf_participante = ?";
+        String sql = "DELETE FROM evento_participante WHERE id_evento = ? AND cpf_participante = ?";
 
         try {
             PreparedStatement sentenca = conexao.conector.prepareStatement(sql);
             sentenca.setInt(1, ep.getIdEvento());
             sentenca.setString(2, ep.getCpfParticipante());
-
-            if (!sentenca.execute()){
-                result = true;
+            
+            int linhasAfetadas = sentenca.executeUpdate();
+            if (linhasAfetadas > 0) {
+               result = true;
             }
         } catch (SQLException e){
             System.out.println("ERRO SQL DELETE EVENTO_PARTICIPANTE: " + e.getMessage());

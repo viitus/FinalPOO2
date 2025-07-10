@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.2" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.DialogFormInfo">
-  <NonVisualComponents>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
-          <Properties>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                <Column editable="true" title="Title 4" type="java.lang.Object"/>
-              </Table>
-            </Property>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
-  </NonVisualComponents>
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.DialogFormInfo">
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
@@ -56,7 +36,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTableTodosParticipantes">
+            <Component class="javax.swing.JTable" name="jTableParticipantes">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
@@ -107,12 +87,18 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Adicionar Participantes"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnAdicionarParticipantesActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbtnCancelar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnCancelarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

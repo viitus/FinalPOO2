@@ -107,6 +107,11 @@ public class TelaLocais extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTableLocais);
 
         jbtnExcluir.setText("Excluir");
+        jbtnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnExcluirActionPerformed(evt);
+            }
+        });
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel7.setText("CEP:");
@@ -293,6 +298,21 @@ public class TelaLocais extends javax.swing.JPanel {
             PreencherTabela();
         }
     }//GEN-LAST:event_jbtnSalvarActionPerformed
+
+    private void jbtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExcluirActionPerformed
+        int linha = jTableLocais.getSelectedRow();
+        LocalModel local = listaLocais.get(linha);
+        LocalController controller = new LocalController();
+        
+        if(controller.delete(local)){
+            JOptionPane.showMessageDialog(this, "Excluido com sucesso");
+            LimparCampos();
+            InicializaTela();
+            PreencherTabela();
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao excluir");
+        }
+    }//GEN-LAST:event_jbtnExcluirActionPerformed
     
  
 

@@ -10,9 +10,11 @@ import Model.LocalModel;
 import Model.EventoModel;
 import Model.EventoParticipanteModel;
 import Model.ParticipanteModel;
+import View.TelaAdicionarParticipantes;
+import java.awt.Frame;
+
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -315,15 +317,15 @@ public class TelaEventos extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Selecione o Evento e o Participante.");
         }
         
-        EventoModel eventoSelecionado = listaEventos.get(linhaEvento);
-        ParticipanteModel participanteSelecionado = listaParticipantes.get(linhaParticipante);
+        int idEvento = Integer.parseInt(jTableEventos.getValueAt(linhaEvento, 5).toString());
+        String cpf = jTableParticipantesDoEvento.getValueAt(linhaParticipante, 1).toString();
         
-        EventoParticipanteModel epModel = new EventoParticipanteModel();
-        epModel.setCpfParticipante(participanteSelecionado.getCpf());
-        epModel.setIdEvento(eventoSelecionado.getIdEvento());
+        EventoParticipanteModel ep = new EventoParticipanteModel(idEvento,cpf);
+        EventoParticipanteController epcontroller = new EventoParticipanteController();
         
-        EventoParticipanteController controller = new EventoParticipanteController();
-        if(controller.delete(epModel)){
+        System.out.println("Tentando excluir participante com CPF: " + cpf + " do evento: " + idEvento);
+
+        if(epcontroller.delete(ep)){
             JOptionPane.showMessageDialog(this, "Participante removido do evento com sucesso.");
             PreencherTabelaParticipantes();
         }else{
@@ -385,13 +387,16 @@ public class TelaEventos extends javax.swing.JPanel {
 
                 if(inserirOuEditar.equals("Salvar Edição")){
                     linhaEventos = jTableEventos.getSelectedRow();
-                    int idEventoSelecionado = Integer.parseInt(jTableEventos.getValueAt(linhaEventos, 5).toString());
-                    evento.setIdEvento(idEventoSelecionado);
+                    if(linhaEventos != -1){
+                        int idEventoSelecionado = Integer.parseInt(jTableEventos.getValueAt(linhaEventos, 5).toString());
+                        evento.setIdEvento(idEventoSelecionado);
+                    }
                     if(controller.update(evento)){
                         JOptionPane.showMessageDialog(this, "Editado com sucesso.");
                     }else{
                         JOptionPane.showMessageDialog(this, "Erro ao editar o participante.");
                     }
+                    jbtnSalvar.setText("Salvar");
                 }
 
                 LimparCampos();
@@ -406,7 +411,31 @@ public class TelaEventos extends javax.swing.JPanel {
     }//GEN-LAST:event_jbtnSalvarActionPerformed
 
     private void jbtnAdicionarParticipanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdicionarParticipanteActionPerformed
-        // TODO add your handling code here:
+        TelaAdicionarParticipantes popup = new TelaAdicionarParticipantes((Frame) javax.swing.SwingUtilities.getWindowAncestor(this),true);
+        popup.setVisible(true);
+        ArrayList<ParticipanteModel> novosParticipantes = popup.getParticipantesSelecionados();
+   
+        if (novosParticipantes != null && !novosParticipantes.isEmpty()) {
+            
+            int linhaEvento = jTableEventos.getSelectedRow();
+            int idEvento = Integer.parseInt(jTableEventos.getValueAt(linhaEvento, 5).toString());
+            EventoParticipanteController epcontroller = new EventoParticipanteController();
+            
+            for(ParticipanteModel p:novosParticipantes){
+                EventoParticipanteModel ep = new EventoParticipanteModel(idEvento, p.getCpf());
+                
+                if(epcontroller.select(ep) == null){
+                    boolean sucesso = epcontroller.insert(ep);
+                    
+                    if(sucesso){
+                        JOptionPane.showMessageDialog(this, "Participante Adicionado ao Evento com Sucesso");
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Erro ao adicionar Participante ao Evento");
+                    }
+                }
+            }
+            PreencherTabelaParticipantes();
+        }
     }//GEN-LAST:event_jbtnAdicionarParticipanteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -215,7 +215,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
             jtxIdade.setText(jTableParticipantes.getValueAt(linha, 2).toString());
             jftxTelefone.setText(jTableParticipantes.getValueAt(linha, 3).toString());
             
-            jbtnNovo.setEnabled(true);
+            jbtnNovo.setEnabled(false);
             jbtnExcluir.setEnabled(true);
             jbtnSalvar.setEnabled(true);
             jbtnSalvar.setText("Salvar Edição");
