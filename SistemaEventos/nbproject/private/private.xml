@@ -4,13 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/View/TelaAtividades.java</file>
-            <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/View/TelaEventos.java</file>
             <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/Controller/AtividadeController.java</file>
             <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/Model/AtividadeModel.java</file>
             <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/Model/EventoModel.java</file>
-            <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/Controller/ParticipanteController.java</file>
+            <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/View/TelaPrincipal.java</file>
             <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/View/TelaParticipantes.java</file>
-            <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/Model/ParticipanteModel.java</file>
+            <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/View/TelaLocais.java</file>
+            <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/View/TelaEventos.java</file>
+            <file>file:/C:/Users/victo/Desktop/UEMG/POO2/FinalPOO2/SistemaEventos/src/View/TelaHome.java</file>
         </group>
     </open-files>
 </project-private>

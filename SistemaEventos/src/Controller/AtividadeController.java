@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Timestamp;
 
 public class AtividadeController {
 
@@ -56,9 +57,15 @@ public class AtividadeController {
                 atividade.setIdAtividade(resultquery.getInt("id"));
                 atividade.setTipoAtividade(resultquery.getString("tipo"));
                 atividade.setTituloAtividade(resultquery.getString("titulo"));
-                atividade.setHoraInicio(resultquery.getTimestamp("hora_inicio").toLocalDateTime());
-                atividade.setHoraFim(resultquery.getTimestamp("hora_fim").toLocalDateTime());
-                atividade.setCriadoEm(resultquery.getTimestamp("criado_em").toLocalDateTime());
+                // Tratamento seguro para campos de data/hora
+                Timestamp timestamp;
+
+                timestamp = resultquery.getTimestamp("hora_inicio");
+                atividade.setHoraInicio(timestamp != null ? timestamp.toLocalDateTime() : null);
+                timestamp = resultquery.getTimestamp("hora_fim");
+                atividade.setHoraFim(timestamp != null ? timestamp.toLocalDateTime() : null);
+                timestamp = resultquery.getTimestamp("criado_em");
+                atividade.setCriadoEm(timestamp != null ? timestamp.toLocalDateTime() : null);
                 atividade.setIdEvento(resultquery.getInt("id_evento"));
                 retorno.add(atividade);
             }

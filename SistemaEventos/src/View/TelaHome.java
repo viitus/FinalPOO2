@@ -26,7 +26,7 @@ public class TelaHome extends javax.swing.JPanel {
         jLabel2.setText("<html><li>Participantes<li>Eventos<li>Locais<li>Atividades<html>");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Versão: 1.0");
+        jLabel4.setText("Versão: 1.75");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

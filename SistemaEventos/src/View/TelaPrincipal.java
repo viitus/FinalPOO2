@@ -23,6 +23,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        TelaHome.setPreferredSize(new java.awt.Dimension(1200, 1200));
         TelaPrincipal.addTab("Home", TelaHome);
         TelaPrincipal.addTab("Participantes", TelaParticipantes);
         TelaPrincipal.addTab("Eventos", TelaEventos);
@@ -37,7 +38,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(TelaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 541, Short.MAX_VALUE)
+            .addComponent(TelaPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
         );
 
         pack();
