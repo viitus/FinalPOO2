@@ -342,7 +342,7 @@ public class TelaEventos extends javax.swing.JPanel {
             PreencherTabelaEvento();
             PreencherTabelaParticipantes();
         }else{
-            JOptionPane.showMessageDialog(this, "Erro ao excluir evento.");
+            JOptionPane.showMessageDialog(this, "Erro ao excluir evento.\nJá existem PArticipantes ou Atividades registradas a esse Evento.");
         }
     }//GEN-LAST:event_jbtnExcluirActionPerformed
 

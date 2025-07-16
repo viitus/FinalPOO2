@@ -22,13 +22,11 @@ import javax.swing.text.MaskFormatter;
 public class TelaAtividades extends javax.swing.JPanel {
 
     private ArrayList<AtividadeModel> listaAtividades = new ArrayList<>();
-    private int linhaAtividade = -1;
-    
+  
     public TelaAtividades() {
         initComponents();
         InicializaTela();
         LimparCampos();
-        jcbEventos.addActionListener(e -> PreencherTabelaAtividades());
     }
 
     @SuppressWarnings("unchecked")
@@ -47,8 +45,8 @@ public class TelaAtividades extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jcbEventos = new javax.swing.JComboBox<>();
-        jtxHoraInicio = new javax.swing.JFormattedTextField();
-        jtxHoraFim = new javax.swing.JFormattedTextField();
+        jftxHoraInicio = new javax.swing.JFormattedTextField();
+        jftxHoraFim = new javax.swing.JFormattedTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableAtividades = new javax.swing.JTable();
 
@@ -95,9 +93,17 @@ public class TelaAtividades extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel2.setText("Evento:");
 
-        jtxHoraInicio.setColumns(20);
+        jcbEventos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbEventosActionPerformed(evt);
+            }
+        });
 
-        jtxHoraFim.setColumns(20);
+        jftxHoraInicio.setColumns(20);
+        jftxHoraInicio.setText("\"__:__\"");
+
+        jftxHoraFim.setColumns(20);
+        jftxHoraFim.setText("\"__:__\"");
 
         jTableAtividades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -139,11 +145,11 @@ public class TelaAtividades extends javax.swing.JPanel {
                                         .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jtxHoraInicio, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jftxHoraInicio, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jtxTitulo, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jtxTipo, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jcbEventos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jtxHoraFim))
+                                    .addComponent(jftxHoraFim))
                                 .addGap(50, 50, 50)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jbtnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -178,11 +184,11 @@ public class TelaAtividades extends javax.swing.JPanel {
                                     .addComponent(jtxTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(14, 14, 14)
                                 .addComponent(jLabel5))
-                            .addComponent(jtxHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jftxHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jtxHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jftxHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addComponent(jbtnNovo)
@@ -197,35 +203,23 @@ public class TelaAtividades extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNovoActionPerformed
-
-        // Mostra componentes
         jcbEventos.setVisible(true);
         jScrollPane2.setVisible(true);
-
-        // Configura botões
         jbtnNovo.setEnabled(false);
         jbtnSalvar.setEnabled(true);
         jbtnExcluir.setEnabled(true);
-
-        // Ativa campos
         jtxTipo.setEditable(true);
         jtxTitulo.setEditable(true);
-        jtxHoraInicio.setEditable(true);
-        jtxHoraFim.setEditable(true);
-
-        // Força a atualização da máscara
-        jtxHoraInicio.setValue("  :  ");
-        jtxHoraInicio.setValue(null);
-        jtxHoraFim.setValue("  :  ");
-        jtxHoraFim.setValue(null);
-        // Foco no primeiro campo
+        jftxHoraInicio.setEditable(true);
+        jftxHoraFim.setEditable(true);
         jtxTipo.requestFocus();
+        LimparCampos();
     }//GEN-LAST:event_jbtnNovoActionPerformed
 
     private void jbtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSalvarActionPerformed
         // Validação básica
         if (jtxTipo.getText().isEmpty() || jtxTitulo.getText().isEmpty() || 
-            jtxHoraInicio.getText().isEmpty() || jtxHoraFim.getText().isEmpty()) {
+            jftxHoraInicio.getText().isEmpty() || jftxHoraFim.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos");
             return;
         }
@@ -238,15 +232,14 @@ public class TelaAtividades extends javax.swing.JPanel {
 
         try {
             // Valida formato das horas
-            if (!jtxHoraInicio.getText().matches("\\d{2}:\\d{2}") || 
-                !jtxHoraFim.getText().matches("\\d{2}:\\d{2}")) {
+            if (!jftxHoraInicio.getText().matches("\\d{2}:\\d{2}") || 
+                !jftxHoraFim.getText().matches("\\d{2}:\\d{2}")) {
                 JOptionPane.showMessageDialog(this, "Formato de hora inválido (use HH:mm)");
                 return;
             }
-
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            LocalTime inicio = LocalTime.parse(jtxHoraInicio.getText(), formatter);
-            LocalTime fim = LocalTime.parse(jtxHoraFim.getText(), formatter);
+            LocalTime inicio = LocalTime.parse(jftxHoraInicio.getText(), formatter);
+            LocalTime fim = LocalTime.parse(jftxHoraFim.getText(), formatter);
 
             if (fim.isBefore(inicio)) {
                 JOptionPane.showMessageDialog(this, "Horário de término deve ser após o início");
@@ -279,17 +272,13 @@ public class TelaAtividades extends javax.swing.JPanel {
                     } else {
                         JOptionPane.showMessageDialog(this, "Erro ao atualizar atividade");
                     }
+                    jbtnSalvar.setText("Salvar");
                 }
             }
-
-            // Atualiza interface
-            LimparCampos();
-            InicializaTela();
-            PreencherTabelaAtividades();
         } catch (DateTimeParseException ex) {
             JOptionPane.showMessageDialog(this, "Formato de hora inválido");
         }
-
+        PreencherTabelaAtividades();
     }//GEN-LAST:event_jbtnSalvarActionPerformed
 
     private void jbtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExcluirActionPerformed
@@ -298,7 +287,7 @@ public class TelaAtividades extends javax.swing.JPanel {
         AtividadeController controller = new AtividadeController();
         
         if(controller.delete(atividade)){
-            JOptionPane.showMessageDialog(this, "AtividadeExcluida com sucesso");
+            JOptionPane.showMessageDialog(this, "Atividade excluida com sucesso");
             LimparCampos();
             PreencherTabelaAtividades();
         }else{
@@ -313,8 +302,8 @@ public class TelaAtividades extends javax.swing.JPanel {
         if(linha != -1){
             jtxTipo.setText(jTableAtividades.getValueAt(linha, 0).toString());
             jtxTitulo.setText(jTableAtividades.getValueAt(linha, 1).toString());
-            jtxHoraInicio.setText(jTableAtividades.getValueAt(linha, 2).toString());
-            jtxHoraFim.setText(jTableAtividades.getValueAt(linha, 3).toString());            
+            jftxHoraInicio.setText(jTableAtividades.getValueAt(linha, 2).toString());
+            jftxHoraFim.setText(jTableAtividades.getValueAt(linha, 3).toString());            
             
             jbtnNovo.setEnabled(false);
             jbtnSalvar.setEnabled(true);
@@ -323,12 +312,16 @@ public class TelaAtividades extends javax.swing.JPanel {
             
             jtxTipo.setEditable(true);
             jtxTitulo.setEditable(true);
-            jtxHoraInicio.setEditable(true);
-            jtxHoraFim.setEditable(true);
+            jftxHoraInicio.setEditable(true);
+            jftxHoraFim.setEditable(true);
             
             linha = -1;
         }
     }//GEN-LAST:event_jTableAtividadesMouseClicked
+
+    private void jcbEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEventosActionPerformed
+        PreencherTabelaAtividades();
+    }//GEN-LAST:event_jcbEventosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -344,8 +337,8 @@ public class TelaAtividades extends javax.swing.JPanel {
     private javax.swing.JButton jbtnNovo;
     private javax.swing.JButton jbtnSalvar;
     private javax.swing.JComboBox<EventoModel> jcbEventos;
-    private javax.swing.JFormattedTextField jtxHoraFim;
-    private javax.swing.JFormattedTextField jtxHoraInicio;
+    private javax.swing.JFormattedTextField jftxHoraFim;
+    private javax.swing.JFormattedTextField jftxHoraInicio;
     private javax.swing.JTextField jtxTipo;
     private javax.swing.JTextField jtxTitulo;
     // End of variables declaration//GEN-END:variables
@@ -367,6 +360,24 @@ public class TelaAtividades extends javax.swing.JPanel {
         jbtnNovo.setEnabled(true);
         jbtnSalvar.setEnabled(false);
         jbtnExcluir.setEnabled(false);
+        
+        jtxTipo.setEditable(false);
+        jtxTitulo.setEditable(false);
+        jftxHoraInicio.setEditable(false);
+        jftxHoraFim.setEditable(false);
+        
+        PreencherCBEventos();
+        
+        try {
+            MaskFormatter mascaraHora = new MaskFormatter("##:##");
+            mascaraHora.setPlaceholderCharacter('_');
+            jftxHoraInicio.setFormatterFactory(new DefaultFormatterFactory(mascaraHora));
+            jftxHoraInicio.setValue(null);
+            jftxHoraFim.setFormatterFactory(new DefaultFormatterFactory(mascaraHora));
+            jftxHoraFim.setValue(null);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         DefaultTableModel modelo = (DefaultTableModel) jTableAtividades.getModel();
         modelo.setRowCount(0); 
@@ -374,33 +385,7 @@ public class TelaAtividades extends javax.swing.JPanel {
         jTableAtividades.getColumnModel().getColumn(4).setMinWidth(0);
         jTableAtividades.getColumnModel().getColumn(4).setMaxWidth(0);
         jTableAtividades.getColumnModel().getColumn(4).setWidth(0);
-
-        // Configura máscaras para os campos de hora
-        try {
-            MaskFormatter mascaraHora = new MaskFormatter("##:##");
-            mascaraHora.setPlaceholderCharacter('_');
-
-            jtxHoraInicio.setFormatterFactory(new DefaultFormatterFactory(mascaraHora));
-            jtxHoraFim.setFormatterFactory(new DefaultFormatterFactory(mascaraHora));
-
-            // Força a atualização da máscara
-            jtxHoraInicio.setValue("  :  ");
-            jtxHoraInicio.setValue(null);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao configurar máscaras de horário");
-        }
-
-        // Configura campos
-        jtxTipo.setEditable(false);
-        jtxTitulo.setEditable(false);
-        jtxHoraInicio.setEditable(false);
-        jtxHoraFim.setEditable(false);
-
-        // Preenche ComboBox
-        PreencherCBEventos();
     }
-    
-    
     
     
     private void PreencherTabelaAtividades() {
@@ -435,23 +420,16 @@ public class TelaAtividades extends javax.swing.JPanel {
                 encontrou = true;
             }
         }
-
         jTableAtividades.getColumnModel().getColumn(4).setMinWidth(0);
         jTableAtividades.getColumnModel().getColumn(4).setMaxWidth(0);
         jTableAtividades.getColumnModel().getColumn(4).setWidth(0);
-        
-        if (!encontrou) {
-            JOptionPane.showMessageDialog(this, "Nenhuma atividade encontrada para este evento");
-        }
+        LimparCampos();
     }
 
-    
-    
-    
     private void LimparCampos() {
         jtxTipo.setText("");
         jtxTitulo.setText("");
-        jtxHoraInicio.setText("");
-        jtxHoraFim.setText(""); 
+        jftxHoraInicio.setValue(null);
+        jftxHoraFim.setValue(null); 
     }
 }

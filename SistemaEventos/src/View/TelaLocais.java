@@ -282,7 +282,7 @@ public class TelaLocais extends javax.swing.JPanel {
                 if(controller.insert(local)){
                     JOptionPane.showMessageDialog(this, "Salvo com sucesso.");
                 }else{
-                    JOptionPane.showMessageDialog(this, "Erro ao salvar o participante.");
+                    JOptionPane.showMessageDialog(this, "Erro ao salvar o Local.");
                 }
             }
             
@@ -293,7 +293,7 @@ public class TelaLocais extends javax.swing.JPanel {
                 if(controller.update(local)){
                     JOptionPane.showMessageDialog(this, "Editado com sucesso.");
                 }else{
-                    JOptionPane.showMessageDialog(this, "Erro ao editar o participante.");
+                    JOptionPane.showMessageDialog(this, "Erro ao editar o Local.");
                 }
             }
                     
@@ -314,7 +314,7 @@ public class TelaLocais extends javax.swing.JPanel {
             InicializaTela();
             PreencherTabela();
         }else{
-            JOptionPane.showMessageDialog(this, "Erro ao excluir");
+            JOptionPane.showMessageDialog(this, "Erro ao excluir.\nLocal já registrado em algum Evento");
         }
     }//GEN-LAST:event_jbtnExcluirActionPerformed
     

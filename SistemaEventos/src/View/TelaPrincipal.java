@@ -4,16 +4,39 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaPrincipal.class.getName());
 
+    private View.TelaHome telaHome;
+    private View.TelaParticipantes telaParticipantes;
+    private View.TelaEventos telaEventos;
+    private View.TelaLocais telaLocais;
+    private View.TelaAtividades telaAtividades;
+    
+    private boolean[] abasCarregadas = new boolean[5];
+    
     public TelaPrincipal() {
         initComponents();
+
+        abasCarregadas[0] = true;
+        // Substitui os painéis reais por placeholders vazios
+        for (int i = 1; i < TelaPrincipal.getTabCount(); i++) {
+            TelaPrincipal.setComponentAt(i, new javax.swing.JPanel());
+        }
+
+        // Listener para carregar sob demanda
+        TelaPrincipal.addChangeListener(e -> {
+            int index = TelaPrincipal.getSelectedIndex();
+            switch (index) {
+                case 1 -> TelaPrincipal.setComponentAt(index, new View.TelaParticipantes());
+                case 2 -> TelaPrincipal.setComponentAt(index, new View.TelaEventos());
+                case 3 -> TelaPrincipal.setComponentAt(index, new View.TelaLocais());
+                case 4 -> TelaPrincipal.setComponentAt(index, new View.TelaAtividades());
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        telaHome1 = new View.TelaHome();
         TelaPrincipal = new javax.swing.JTabbedPane();
         TelaHome = new View.TelaHome();
         TelaParticipantes = new View.TelaParticipantes();
@@ -38,7 +61,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(TelaPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+            .addComponent(TelaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 680, Short.MAX_VALUE)
         );
 
         pack();
@@ -72,8 +95,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private View.TelaLocais TelaLocais;
     private View.TelaParticipantes TelaParticipantes;
     private javax.swing.JTabbedPane TelaPrincipal;
-    private javax.swing.Box.Filler filler1;
     private View.TelaAtividades telaAtividades1;
-    private View.TelaHome telaHome1;
     // End of variables declaration//GEN-END:variables
 }

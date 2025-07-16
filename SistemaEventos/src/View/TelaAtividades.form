@@ -37,11 +37,11 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jtxHoraInicio" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jftxHoraInicio" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jtxTitulo" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jtxTipo" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jcbEventos" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jtxHoraFim" max="32767" attributes="0"/>
+                                  <Component id="jftxHoraFim" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -89,12 +89,12 @@
                               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jtxHoraInicio" min="-2" max="-2" attributes="0"/>
+                          <Component id="jftxHoraInicio" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jtxHoraFim" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jftxHoraFim" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -192,18 +192,23 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcbEventosActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;EventoModel&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="jtxHoraInicio">
+    <Component class="javax.swing.JFormattedTextField" name="jftxHoraInicio">
       <Properties>
         <Property name="columns" type="int" value="20"/>
+        <Property name="text" type="java.lang.String" value="&quot;__:__&quot;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="jtxHoraFim">
+    <Component class="javax.swing.JFormattedTextField" name="jftxHoraFim">
       <Properties>
         <Property name="columns" type="int" value="20"/>
+        <Property name="text" type="java.lang.String" value="&quot;__:__&quot;"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">

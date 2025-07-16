@@ -107,6 +107,7 @@ public class TelaParticipantes extends javax.swing.JPanel {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jftxCpf.setText("___.___.___-__");
         jftxCpf.setToolTipText("");
 
         jftxTelefone.setColumns(20);
@@ -179,9 +180,8 @@ public class TelaParticipantes extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbtnExcluir)
                         .addGap(33, 33, 33)))
-                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -341,7 +341,6 @@ public class TelaParticipantes extends javax.swing.JPanel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        
     }
     
     
